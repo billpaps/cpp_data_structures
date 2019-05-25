@@ -1,0 +1,2 @@
+BUILD MINHEAP minheap.txt
+GETSIZE MINHEAP
