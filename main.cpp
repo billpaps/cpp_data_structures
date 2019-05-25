@@ -29,13 +29,13 @@ int main()
 	string line, command, type, filename;
 
 	readFromFile.open("Commands.txt", ios_base::in);
-	if (readFromFile.is_open()) 
+	if (readFromFile.is_open()) 	// file is open
 	{
 		
-		while (getline(readFromFile, line))
+		while (getline(readFromFile, line))	// οσο διαβαζει σειρες να συνεχιζει
 		{
 			istringstream iss(line);
-			iss >> command >> type;
+			iss >> command >> type;		// η εντολη πχ BUILD, GETSIZE, και μετά ο τύπος πχ MINHEAP MAXHEAP κλπ.
 			cout << command << " " << type;
 			
 			if (command == "BUILD") 
