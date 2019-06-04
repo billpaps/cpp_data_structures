@@ -1,2 +1,3 @@
-BUILD MINHEAP minheap.txt
-GETSIZE MINHEAP
+BUILD GRAPH C:\Users\Alex\AppData\Roaming\SPB_Data\cpp_data_structures\graph.txt
+GETSIZE GRAPH
+COMPUTESHORTESTPATH GRAPH 1 4

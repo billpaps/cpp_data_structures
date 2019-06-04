@@ -37,21 +37,20 @@ void MinHeap::insertKey(int k)
     {
         int *tempora = new int[2*heap_size];
         heap_size *= 2;
-        
+
         for(int i = 0; i < heap_size; i++)
         {
             tempora[i] = heap_arr[i];
         }
-        
+
         delete[] heap_arr;
         heap_arr = tempora;
-
     }
 
     int i = current_length;
     heap_arr[i] = k;
 
-    while (i != 0 && heap_arr[parent(i)] > heap_arr[i])   // Fix the minHeap property  
+    while (i != 0 && heap_arr[parent(i)] > heap_arr[i])   // Fix the minHeap property
     {
        swap(&heap_arr[i], &heap_arr[parent(i)]);
        i = parent(i);
@@ -87,7 +86,7 @@ void MinHeap::Heapify()
                     minimum = right;
                 }
             }
-            
+
             if (heap_arr[starting_point] > heap_arr[left] && heap_arr[left] < heap_arr[minimum]) // in case right child is smaller than the left child
             {
                 minimum = left;
@@ -115,5 +114,5 @@ int MinHeap::get_size()
 }
 
 void extract(int *del){
-    
+
 }

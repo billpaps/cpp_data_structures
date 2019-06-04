@@ -1,47 +1,51 @@
-﻿#include <iostream>
+﻿#include "MinHeap.h"
+#include "MaxHeap.h"
+#include "AvlTree.h"
+#include "Graph.h"
+#include <iostream>
 #include <string>
 #include <vector>
 #include <numeric>
 #include <fstream>
 #include <sstream>
-#include "MinHeap.h"
-#include "MaxHeap.h"
-#include "AvlTree.h"
 
 using namespace std;
 
 MinHeap Build_min(string filename);
 MaxHeap Build_max(string filename);
 AvlTree Build_avltree(string filename);
+Graph build_Graph(string filename);
 
 int main()
 {
 	MinHeap Min_h;
 	MaxHeap Max_h;
 	AvlTree Avl_tree;
+	Graph Graph_Structure;
 
-    
+
 	ofstream writeToFile;
 	ifstream readFromFile;
-	int value, value2;
+	int value1, value2;
 	string txtToWrite = "";
 	string txtFromFile = "";
 	string line, command, type, filename;
 
-	readFromFile.open("Commands.txt", ios_base::in);
+	readFromFile.open("C:\\Users\\Alex\\AppData\\Roaming\\SPB_Data\\cpp_data_structures\\Commands.txt", ios_base::in);
+
 	if (readFromFile.is_open()) 	// file is open
 	{
-		
+
 		while (getline(readFromFile, line))	// οσο διαβαζει σειρες να συνεχιζει
 		{
 			istringstream iss(line);
 			iss >> command >> type;		// η εντολη πχ BUILD, GETSIZE, και μετά ο τύπος πχ MINHEAP MAXHEAP κλπ.
-			cout << command << " " << type;
-			
-			if (command == "BUILD") 
+			cout << command << " " << type <<endl;
+
+			if (command == "BUILD")
 			{
 				iss >> filename;
-				
+
 				if (type == "MINHEAP")
 				{
 					Min_h = Build_min(filename);
@@ -56,7 +60,7 @@ int main()
 				}
 				else if (type == "GRAPH")
 				{
-
+                    Graph_Structure = build_Graph(filename);
 				}
 				else // HASHTABLE
 				{
@@ -79,7 +83,7 @@ int main()
 				}
 				else if (type == "GRAPH")
 				{
-
+                    cout <<"Nodes Count: " << Graph_Structure.getVertexCount() << " Edges Count: " << Graph_Structure.getEdgeCount() << endl;
 				}
 				else // HASHTABLE
 				{
@@ -105,9 +109,10 @@ int main()
 
 			else if (command == "COMPUTESHORTESTPATH")
 			{
-
-			}
-
+                iss >> value1 >> value2 ;
+                int cost = Graph_Structure.shortestPathBFS(value1, value2);
+                cout << cost << endl;
+            }
 			else if (command == "FINDCONNECTEDCOMPOMENTS")
 			{
 
@@ -115,7 +120,8 @@ int main()
 
 			else if (command == "INSERT")
 			{
-
+			    iss >> value1 >> value2 ;
+                Graph_Structure.insertEdge(value1, value2);
 			}
 
 			else if (command == "DELETEMIN")
@@ -141,10 +147,10 @@ int main()
 				}
 				else if (type == "GRAPH")
 				{
-
+				    iss >> value1 >> value2 ;
+                    Graph_Structure.deleteEdge(value1,value2);
 				}
 			}
-
 		}
 	}
 
@@ -154,7 +160,10 @@ int main()
 //----------------FUNCTIONS-------------
 
 
-// -------- MINHEAP ----------//
+/* -------- MINHEAP ----------
+ Συναρτηση που ανοιγει το αρχεια minheap.txt μεσω της μεταβλητης string filename
+ και διαβαζει τις τιμες που προκειται να εχει ο σωρος ελαχιστων
+*/
 MinHeap Build_min(string filename)
 {
 	ifstream readValues;
@@ -164,7 +173,7 @@ MinHeap Build_min(string filename)
 	MinHeap min_h;
 	if (readValues.is_open())
 	{
-		
+
 		while (getline(readValues, string_values))
 		{
 			value = stoi(string_values);
@@ -175,7 +184,10 @@ MinHeap Build_min(string filename)
 }
 
 
-// ------- MAXHEAP ----------//
+/* ------- MAXHEAP ----------
+ Συναρτηση που ανοιγει το αρχεια minheap.txt μεσω της μεταβλητης string filename
+ και διαβαζει τις τιμες που προκειται να εχει ο σωρος μεγιστων
+*/
 MaxHeap Build_max(string filename)
 {
 	ifstream readValues;
@@ -212,3 +224,26 @@ AvlTree Build_avltree(string filename)
 	}
 	return tree;
 }
+
+/*
+    Συναρτηση για την δημιουργια του γραφου
+*/
+Graph build_Graph(string filename)
+{
+    Graph tempGraph;
+    ifstream readFromFile;
+    string leftAndRightNodes;
+    int leftValue, rightValue;
+    readFromFile.open(filename, ios_base::in);
+    if(readFromFile.is_open())
+        while(getline(readFromFile,leftAndRightNodes))
+        {
+			istringstream iss(leftAndRightNodes);
+			iss >> leftValue >> rightValue;\
+			tempGraph.insertNode(leftValue, rightValue);
+        }
+    return tempGraph;
+}
+
+
+
