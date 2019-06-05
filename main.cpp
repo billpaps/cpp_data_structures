@@ -2,6 +2,7 @@
 #include "MaxHeap.h"
 #include "AvlTree.h"
 #include "Graph.h"
+#include "HashTable.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -15,6 +16,7 @@ MinHeap Build_min(string filename);
 MaxHeap Build_max(string filename);
 AvlTree Build_avltree(string filename);
 Graph build_Graph(string filename);
+HashTable build_Hash(string filename);
 
 int main()
 {
@@ -22,7 +24,7 @@ int main()
 	MaxHeap Max_h;
 	AvlTree Avl_tree;
 	Graph Graph_Structure;
-
+    HashTable Hash_Structure;
 
 	ofstream writeToFile;
 	ifstream readFromFile;
@@ -64,7 +66,7 @@ int main()
 				}
 				else // HASHTABLE
 				{
-
+                    Hash_Structure = build_Hash(filename);
 				}
 			}
 			else if (command == "GETSIZE")
@@ -87,7 +89,7 @@ int main()
 				}
 				else // HASHTABLE
 				{
-
+                    int HashTableSize = Hash_Structure.getHashEntriesCount();
 				}
 
 			}
@@ -103,9 +105,13 @@ int main()
 
 			else if (command == "SEARCH")
 			{
+                if(type=="AVLTREE"){
 
+                }else{//HASHTABLE
+                    iss >> value1;
+                    cout << Hash_Structure.searchHashTable(value1);
+                }
 			}
-
 			else if (command == "COMPUTESHORTESTPATH")
 			{
                 iss >> value1 >> value2 ;
@@ -122,9 +128,20 @@ int main()
             }
 			else if (command == "INSERT")
 			{
-			    iss >> value1 >> value2 ;
-                Graph_Structure.insertEdge(value1, value2);
-			}
+			    if(type=="GRAPH"){
+                    iss >> value1 >> value2 ;
+                    Graph_Structure.insertEdge(value1, value2);
+			    }else if(type=="MINHEAP"){
+
+			    }else if(type=="MAXHEAP"){
+
+			    }else if(type=="AVLTREE"){
+
+			    }else{//HASHTABLE
+			        iss >> value1;
+                    Hash_Structure.addEntry(value1);
+			    }
+            }
 			else if (command == "DELETEMIN")
 			{
 
@@ -243,6 +260,47 @@ Graph build_Graph(string filename)
 			tempGraph.insertNode(leftValue, rightValue);
         }
     return tempGraph;
+}
+
+HashTable build_Hash(string filename)
+{
+    ifstream readFromFile;
+	string stringEntry;
+	vector<int> value;
+	readFromFile.open(filename, ios_base::in);
+	if (readFromFile.is_open())
+		while (getline(readFromFile, stringEntry))
+			value.push_back(stoi(stringEntry));
+	int maxEntry = value[0];
+	for(unsigned int i=0; i<value.size(); i++)
+        if(value.at(i)>maxEntry)
+            maxEntry=value.at(i);
+    int prime;
+    if(maxEntry>100)
+    {
+        prime=101;
+    }else{
+        bool isPrime=false;
+        prime=maxEntry;
+        while(!isPrime)
+        {
+            for(int i=prime-1;i>prime/2;i--)
+                if(prime%i==0){
+                    isPrime=true;
+                    break;
+                }
+            if(isPrime){
+                prime++;
+                isPrime=false;
+            }else{
+                break;
+            }
+        }
+    }
+    HashTable tempHash(prime);
+    for(unsigned int i=0; i<value.size(); i++)
+        tempHash.addEntry(value[i]);
+    return tempHash;
 }
 
 

@@ -1,4 +1,1 @@
-BUILD GRAPH C:\Users\Alex\AppData\Roaming\SPB_Data\cpp_data_structures\graph.txt
-FINDCONNECTEDCOMPONENTS GRAPH
-INSERT GRAPH 3 4
-FINDCONNECTEDCOMPONENTS GRAPH
+BUILD HASHTABLE C:\Users\Alex\AppData\Roaming\SPB_Data\cpp_data_structures\MinHeap.txt
