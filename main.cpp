@@ -91,7 +91,6 @@ int main()
 				}
 
 			}
-
 			else if (command == "FINDMIN")
 			{
 				cout << Min_h.getMin();
@@ -113,32 +112,33 @@ int main()
                 int cost = Graph_Structure.shortestPathBFS(value1, value2);
                 cout << cost << endl;
             }
-			else if (command == "FINDCONNECTEDCOMPOMENTS")
+			else if (command == "FINDCONNECTEDCOMPONENTS")
 			{
-
+                int connectedComponents = Graph_Structure.findConnectedComponents();
 			}
+			else if ( command == "COMPUTESPANNINGTREE")
+            {
 
+            }
 			else if (command == "INSERT")
 			{
 			    iss >> value1 >> value2 ;
                 Graph_Structure.insertEdge(value1, value2);
 			}
-
 			else if (command == "DELETEMIN")
 			{
 
 			}
-
 			else if (command == "DELETEMAX")
 			{
 
 			}
-
+			/* Υπαρχουν δυο if με DELETE, δεν ξερω αυτη που χρησιμοποιειτε αλλα την εβγαλα προς το παρον
 			else if (command == "DELETE")
 			{
 
 			}
-
+			*/
 			else if (command == "DELETE") // AVLTREE OR GRAPH
 			{
 				if (type == "AVLTREE")

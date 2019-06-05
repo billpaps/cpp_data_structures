@@ -24,6 +24,8 @@ public:
     int shortestPathBFS(int node1, int node2);
     void insertEdge(int value1, int value2);
     void deleteEdge(int value1, int value2);
+    int findConnectedComponents();
+    void spanningTree();
 
 private:
 

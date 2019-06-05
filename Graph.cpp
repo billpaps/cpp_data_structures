@@ -78,7 +78,7 @@ int Graph::shortestPathBFS(int node1,int node2){
     int cost=0;
     queue<int> agenda;
     vector<int> children;
-    int source1, source2;
+    int source1=-1, source2=-1;
     bool *explored = new bool[nodeCount];
     for (int i = 0 ; i<=nodeCount ; ++i)
         explored[i] = false;
@@ -95,6 +95,8 @@ int Graph::shortestPathBFS(int node1,int node2){
     agenda.push(source1);
     if(source1==source2)
         return 0;
+    if(source1==-1 || source2==-1)
+        return -1;//περιπτωση οπου δεν υπαρχουν ενας(η και οι δυο) απο τους κομβους
     cost++;
     while(!agenda.empty())
     {
@@ -141,7 +143,8 @@ void Graph::insertEdge(int value1, int value2){
                 alreadyExists=true;
         if(!alreadyExists){
             graph[source1].destination.push_back(source2);
-            graph[source1].destination.push_back(source2);
+            graph[source2].destination.push_back(source1);
+            edgeCount++;
         }
     }
 }
@@ -158,23 +161,73 @@ void Graph::deleteEdge(int value1,int value2){
             source2=i;
             break;
         }
-    if(source1==-1 || source2==-1){ //do nothing
+    if(source1==-1 || source2==-1){
     }
     else{
-        int destination1=0, destination2=0;
+        bool edgeExists=false;
         for(unsigned int i=0;i<graph[source1].destination.size();i++)
-            if(value2==graph[source1].destination[i])
+            if(source2==graph[source1].destination[i])
             {
-                destination1=i;
+                edgeExists=true;
                 break;
             }
-        for(unsigned int i=0;i<graph[source2].destination.size();i++)
-            if(value1==graph[source2].destination[i])
-            {
-                destination2=i;
-                break;
-            }
-        graph[source1].destination.erase(graph[source1].destination.begin()+destination1);
-        graph[source2].destination.erase(graph[source2].destination.begin()+destination2);
+        if(edgeExists){
+            int destination1=0, destination2=0;
+            for(unsigned int i=0;i<graph[source1].destination.size();i++)
+                if(value2==graph[source1].destination[i]+1)
+                {
+                    destination1=i;
+                    break;
+                }
+            for(unsigned int i=0;i<graph[source2].destination.size();i++)
+                if(value1==graph[source2].destination[i]+1)
+                {
+                    destination2=i;
+                    break;
+                }
+            graph[source1].destination.erase(graph[source1].destination.begin()+destination1);
+            graph[source2].destination.erase(graph[source2].destination.begin()+destination2);
+            edgeCount--;
+        }
     }
+}
+
+int Graph::findConnectedComponents()
+{
+    int connectedComponents=0;
+    queue<int> agenda;
+    vector<int> children;
+    bool allNodesVisited=false;
+    bool *explored = new bool[nodeCount];
+    for (int i = 0 ; i<=nodeCount ; ++i)
+        explored[i] = false;
+    agenda.push(graph[0].source);
+    while(!allNodesVisited)
+    {
+        while(!agenda.empty())
+        {
+            int currentVertex = agenda.front();
+            agenda.pop();
+            explored[currentVertex]=true;
+            children = graph[currentVertex].destination;
+            for(unsigned int i=0; i<children.size() ; i++)
+                if(!explored[children[i]]){
+                    agenda.push(children[i]);
+                    explored[children[i]]=true;
+                }
+        }
+        allNodesVisited=true;
+        connectedComponents++;
+        for(int i=0;i<nodeCount;i++)
+            if(!explored[i]){
+                allNodesVisited=false;
+                agenda.push(graph[i].source);
+                break;
+            }
+    }
+    return connectedComponents;
+}
+
+void Graph::spanningTree(){
+
 }
