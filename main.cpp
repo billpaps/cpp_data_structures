@@ -9,6 +9,7 @@
 #include <numeric>
 #include <fstream>
 #include <sstream>
+#include <ctime>
 
 using namespace std;
 
@@ -32,8 +33,11 @@ int main()
 	string txtToWrite = "";
 	string txtFromFile = "";
 	string line, command, type, filename;
+	clock_t time_req;
+	double time_used;
 
 	readFromFile.open("C:\\Users\\Alex\\AppData\\Roaming\\SPB_Data\\cpp_data_structures\\Commands.txt", ios_base::in);
+    writeToFile.open("C:\\Users\\Alex\\AppData\\Roaming\\SPB_Data\\cpp_data_structures\\output.txt",ios::out);
 
 	if (readFromFile.is_open()) 	// file is open
 	{
@@ -50,57 +54,94 @@ int main()
 
 				if (type == "MINHEAP")
 				{
+				    time_req = clock();
 					Min_h = Build_min(filename);
+					time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+					writeToFile << "MINHEAP BUILT SUCCESSFULLY - TIME USED: " << time_used << endl;
 				}
 				else if (type == "MAXHEAP")
 				{
+				    time_req = clock();
 					Max_h = Build_max(filename);
+					time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+					writeToFile << "MAXHEAP BUILT SUCCESSFULLY - TIME USED: " << time_used << endl;
 				}
 				else if (type == "AVLTREE")
 				{
+				    time_req = clock();
 					Avl_tree = Build_avltree(filename);
+					time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+					writeToFile << "AVLTREE BUILT SUCCESSFULLY - TIME USED: " << time_used << endl;
 				}
 				else if (type == "GRAPH")
 				{
+				    time_req = clock();
                     Graph_Structure = build_Graph(filename);
+                    time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+                    writeToFile << "GRAPH BUILT SUCCESSFULLY - TIME USED: " << time_used << endl;
 				}
 				else // HASHTABLE
 				{
+				    time_req = clock();
                     Hash_Structure = build_Hash(filename);
+                    time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+                    writeToFile << "HASHTABLE BUILT SUCCESSFULLY - TIME USED: " << time_used << endl;
 				}
 			}
 			else if (command == "GETSIZE")
 			{
 				if (type == "MINHEAP")
 				{
-					cout << Min_h.get_size();
+				    time_req = clock();
+					value1 =  Min_h.get_size();
+					time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+					writeToFile << "MINHEAP SIZE: " << value1 << " - TIME USED: " << time_used << endl;
 				}
 				else if (type == "MAXHEAP")
 				{
-					cout << Max_h.get_size();
+				    time_req = clock();
+					value1 = Max_h.get_size();
+					time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+					writeToFile << "MAXHEAP SIZE: " << value1 << " - TIME USED: " << time_used << endl;
 				}
 				else if (type == "AVLTREE")
 				{
-					cout << Avl_tree.get_size();
+				    time_req = clock();
+					value1 = Avl_tree.get_size();
+					time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+					writeToFile << "AVLTREE SIZE: " << value1 << " - TIME USED: " << time_used << endl;
 				}
 				else if (type == "GRAPH")
 				{
-                    cout <<"Nodes Count: " << Graph_Structure.getVertexCount() << " Edges Count: " << Graph_Structure.getEdgeCount() << endl;
+				    time_req = clock();
+                    value1 = Graph_Structure.getVertexCount();
+                    value2 = Graph_Structure.getEdgeCount();
+                    time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+                    writeToFile << "GRAPH VERTEX COUNT: " << value1 << " | GRAPH EDGE COUNT : "<< value2 << " - TIME USED" << time_used << endl;
 				}
 				else // HASHTABLE
 				{
-                    int HashTableSize = Hash_Structure.getHashEntriesCount();
+				    time_req = clock();
+                    value1 = Hash_Structure.getHashEntriesCount();
+                    time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+                    writeToFile << "MINHEAP SIZE: " << value1 << " - TIME USED: " << time_used << endl;
 				}
 
 			}
 			else if (command == "FINDMIN")
 			{
-				cout << Min_h.getMin();
+			    time_req = clock();
+				value1 = Min_h.getMin();
+				time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+				writeToFile << "MINHEAP FINDMIN COMMAND: " << value1 << " - TIME USED: " << time_used << endl;
 			}
 
 			else if (command == "FINDMAX")
 			{
-				cout << Max_h.getMax();
+			    time_req = clock();
+				value1 = Max_h.getMax();
+				time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+				writeToFile << "MAXHEAP FINDMAX COMMAND: " << value1 << " - TIME USED: " << time_used << endl;
 			}
 
 			else if (command == "SEARCH")
@@ -108,19 +149,27 @@ int main()
                 if(type=="AVLTREE"){
 
                 }else{//HASHTABLE
+                    time_req = clock();
                     iss >> value1;
-                    cout << Hash_Structure.searchHashTable(value1);
+                    type = Hash_Structure.searchHashTable(value1);
+                    time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+                    writeToFile << "HASHTABLE SEARCH COMMAND: " << type << " - TIME USED: " << time_used << endl;
                 }
 			}
 			else if (command == "COMPUTESHORTESTPATH")
 			{
+			    time_req = clock();
                 iss >> value1 >> value2 ;
                 int cost = Graph_Structure.shortestPathBFS(value1, value2);
-                cout << cost << endl;
+                time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+                writeToFile << "GRAPH SHORTEST PATH BETWEEN "<< value1 << " and " << value2 << ": " << cost << " - TIME USED: " << time_used << endl;
             }
 			else if (command == "FINDCONNECTEDCOMPONENTS")
 			{
+			    time_req = clock();
                 int connectedComponents = Graph_Structure.findConnectedComponents();
+                time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+                writeToFile << "GRAPH CONNECTED COMPONENTS : " << connectedComponents << " - TIME USED: " << time_used << endl;
 			}
 			else if ( command == "COMPUTESPANNINGTREE")
             {
@@ -129,8 +178,11 @@ int main()
 			else if (command == "INSERT")
 			{
 			    if(type=="GRAPH"){
+                    time_req = clock();
                     iss >> value1 >> value2 ;
                     Graph_Structure.insertEdge(value1, value2);
+                    time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+                    writeToFile << "GRAPH INSERT COMMAND - TIME USED: " << time_used << endl;
 			    }else if(type=="MINHEAP"){
 
 			    }else if(type=="MAXHEAP"){
@@ -138,8 +190,11 @@ int main()
 			    }else if(type=="AVLTREE"){
 
 			    }else{//HASHTABLE
+			        time_req = clock();
 			        iss >> value1;
                     Hash_Structure.addEntry(value1);
+                    time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+                    writeToFile << "GRAPH INSERT COMMAND - TIME USED: " << time_used << endl;
 			    }
             }
 			else if (command == "DELETEMIN")
@@ -150,12 +205,6 @@ int main()
 			{
 
 			}
-			/* Υπαρχουν δυο if με DELETE, δεν ξερω αυτη που χρησιμοποιειτε αλλα την εβγαλα προς το παρον
-			else if (command == "DELETE")
-			{
-
-			}
-			*/
 			else if (command == "DELETE") // AVLTREE OR GRAPH
 			{
 				if (type == "AVLTREE")
@@ -164,13 +213,18 @@ int main()
 				}
 				else if (type == "GRAPH")
 				{
+				    time_req = clock();
 				    iss >> value1 >> value2 ;
                     Graph_Structure.deleteEdge(value1,value2);
+                    time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+                    writeToFile << "GRAPH DELETE COMMAND - TIME USED: " << time_used << endl;
 				}
 			}
 		}
 	}
-
+	readFromFile.close();
+	writeToFile.close();
+    return 0;
 }
 
 
@@ -266,40 +320,11 @@ HashTable build_Hash(string filename)
 {
     ifstream readFromFile;
 	string stringEntry;
-	vector<int> value;
+	HashTable tempHash(101);
 	readFromFile.open(filename, ios_base::in);
 	if (readFromFile.is_open())
 		while (getline(readFromFile, stringEntry))
-			value.push_back(stoi(stringEntry));
-	int maxEntry = value[0];
-	for(unsigned int i=0; i<value.size(); i++)
-        if(value.at(i)>maxEntry)
-            maxEntry=value.at(i);
-    int prime;
-    if(maxEntry>100)
-    {
-        prime=101;
-    }else{
-        bool isPrime=false;
-        prime=maxEntry;
-        while(!isPrime)
-        {
-            for(int i=prime-1;i>prime/2;i--)
-                if(prime%i==0){
-                    isPrime=true;
-                    break;
-                }
-            if(isPrime){
-                prime++;
-                isPrime=false;
-            }else{
-                break;
-            }
-        }
-    }
-    HashTable tempHash(prime);
-    for(unsigned int i=0; i<value.size(); i++)
-        tempHash.addEntry(value[i]);
+			tempHash.addEntry(stoi(stringEntry));
     return tempHash;
 }
 
