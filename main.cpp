@@ -46,12 +46,10 @@ int main()
 		{
 			istringstream iss(line);
 			iss >> command >> type;		// η εντολη πχ BUILD, GETSIZE, και μετά ο τύπος πχ MINHEAP MAXHEAP κλπ.
-			cout << command << " " << type <<endl;
 
 			if (command == "BUILD")
 			{
 				iss >> filename;
-
 				if (type == "MINHEAP")
 				{
 				    time_req = clock();

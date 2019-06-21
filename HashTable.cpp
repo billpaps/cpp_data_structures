@@ -16,14 +16,14 @@ HashTable::HashTable(unsigned int tableSize){
     hashEntriesCount=0;
     hashConstant=tableSize;
     hashMap = new HashEntry[tableSize];
-    for(int i=0;i<101;i++){
+    for(unsigned int i=0;i<tableSize;i++){
         hashMap[i].entryValues = new int[10];
-        hashMap[i].entryCount=0
+        hashMap[i].entryCount=0;
     }
 }
 
 HashTable::~HashTable(){
-    for(int i=0;i<101;i++)
+    for(int i=0;i<hashConstant;i++)
         delete[] hashMap[i].entryValues; //Καταστροφεας
     delete[] hashMap;
 }
@@ -40,7 +40,7 @@ int HashTable::getHashEntriesCount() { return hashEntriesCount; } //Επιστρ
 void HashTable::addEntry(int entry)
 {
     int adress = entry % hashConstant;
-    if(hashMap[adress].entryCount & 10 ==0)
+    if((hashMap[adress].entryCount & 10) ==0)
     {
         int *tempEntry = new int[hashMap[adress].entryCount+10];
         for(int i=0;i<10;i++)
