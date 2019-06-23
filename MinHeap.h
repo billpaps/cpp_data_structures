@@ -6,10 +6,11 @@ class MinHeap
 {
 protected:
     int *heap_arr;
-    int heap_size, current_length;
+    int heap_size;
 
 public:
 
+    int current_length;
     MinHeap(); //Constructor
 	~MinHeap();
 
@@ -29,6 +30,6 @@ public:
 
 	int get_size();
 
-    void extract();
+    void extract(MinHeap *heap_arr);
 
 };

@@ -30,22 +30,14 @@ int MinHeap::parent(int n)
 int MinHeap::leftChild(int n)
 {
     int cell = n * 2 + 1;
-<<<<<<< HEAD
-    if (cell >= size || cell <= n) return -1;
-=======
     if (cell >= current_length || cell <= n) return -1;
->>>>>>> 9066daf2ec81aeb8efee4dff924040bee6c41530
     return cell;
 }  // index of leftChild
 
 int MinHeap::rightChild(int n)
 {
     int cell = n * 2 + 2;
-<<<<<<< HEAD
-    if (cell >= size || cell <= n) return -1;
-=======
     if (cell >= current_length || cell <= n) return -1;
->>>>>>> 9066daf2ec81aeb8efee4dff924040bee6c41530
     return cell;
 
 }  // index of rightChild
@@ -158,12 +150,9 @@ int MinHeap::get_size()
 	return current_length;
 }
 
-void extract(){
-    if (current_length == 0) throw runtime_error("The heap is empty.");
-
-    int min = heap_arr[0];
-    heap_arr[0] = heap_arr[current_length - 1];
-    current_length--;
-    sift_down(0);
-    return min;
+void MinHeap::extract(MinHeap *heap_arr){
+    if (heap_arr->current_length == 0) throw runtime_error("The heap is empty.");
+    heap_arr[0] = heap_arr[heap_arr->current_length - 1];
+    heap_arr->current_length--;
+    heap_arr->sift_down(0);
 }
