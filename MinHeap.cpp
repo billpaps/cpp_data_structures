@@ -66,7 +66,7 @@ void MinHeap::insertKey(int k)
 
     int i = current_length;
     heap_arr[i] = k;
-
+S
     while (i != 0 && heap_arr[parent(i)] > heap_arr[i])   // Fix the minHeap property
     {
        swap(&heap_arr[i], &heap_arr[parent(i)]);

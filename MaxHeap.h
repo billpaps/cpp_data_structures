@@ -2,37 +2,35 @@
 
 using namespace std;
 
-class MaxHeap
+class MinHeap
 {
+protected:
+
 
 public:
 
-    int* heap_arr;
-	int heap_size, current_length;
+    int current_length;
+    int *heap_arr;
+    int heap_size;
+    MaxHeap(); //Constructor
+    ~MaxHeap();
 
-	MaxHeap(); //Constructor
-	~MaxHeap();
+    void insertKey(int k);
 
-	void insertKey(int k);
+    void sift_down(int index);
 
-	void Heapify();
+    int parent(int n);
 
-	int parent(int n);
+    int leftChild(int n);
 
-	int leftChild(int n);
+    int rightChild(int n);
 
-	int rightChild(int n);
+    int getMax();
 
-	int getMax();
+    void swap(int *x, int *y);
 
-	void swap(int* x, int* y);
+    int get_size();
 
-	int get_size();
-
-	void extract();
-
-	void siftdown(int i);
-
-	bool isLeaf(int i);
+    void extract();
 
 };

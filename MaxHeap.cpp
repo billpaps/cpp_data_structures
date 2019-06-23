@@ -1,158 +1,158 @@
 #include "MaxHeap.h"
 #include <iostream>
 #include <string>
-#include <vector>
 #include <numeric>
 #include <math.h>
+#include <stdexcept>
 
 using namespace std;
 
 MaxHeap::MaxHeap()
 {
-	heap_arr = new int[10];
-	current_length = 0;
-	heap_size = 10;
+    heap_arr = new int[10];
+    current_length = 0;
+    heap_size = 10;
 }
 
-MaxHeap::~MaxHeap() {
-	delete[] heap_arr;
+MaxHeap::~MaxHeap()
+{
+    delete[] heap_arr;
 }
 
 
-int MaxHeap::parent(int n) { return (n - 1) / 2; }  // index of parent
+int MaxHeap::parent(int n)
+{
+    int cell = (n - 1) / 2;
+    if (cell < 0 || cell >= n) return -1;
+    return cell;
+}  // index of parent
 
-int MaxHeap::leftChild(int n) { return n * 2 + 1; }  // index of leftChild
+int MaxHeap::leftChild(int n)
+{
+    int cell = n * 2 + 1;
+    if (cell >= current_length || cell <= n) return -1;
+    return cell;
+}  // index of leftChild
 
-int MaxHeap::rightChild(int n) { return n * 2 + 2; }  // index of rightChild
+int MaxHeap::rightChild(int n)
+{
+    int cell = n * 2 + 2;
+    if (cell >= current_length || cell <= n) return -1;
+    return cell;
 
-void MaxHeap::swap(int* x, int* y) {
-	int temporary = *x;
-	*x = *y;
-	*y = temporary;
+}  // index of rightChild
+
+void MaxHeap::swap(int *x, int *y){
+    int temporary = *x;
+    *x = *y;
+    *y = temporary;
 }
 
 void MaxHeap::insertKey(int k)
 {
-	if (heap_size == current_length) // Avoid overflow
-	{
-		int* tempora = new int[2 * heap_size];
-		heap_size *= 2;
+    if (heap_size == current_length) // Avoid overflow
+    {
+        int *tempora = new int[2*heap_size];
+        heap_size *= 2;
 
-		for (int i = 0; i < heap_size; i++)
-		{
-			tempora[i] = heap_arr[i];
-		}
+        for(int i = 0; i < heap_size; i++)
+        {
+            tempora[i] = heap_arr[i];
+        }
 
-		delete[] heap_arr;
-		heap_arr = tempora;
+        delete[] heap_arr;
+        heap_arr = tempora;
+    }
 
-	}
+    int i = current_length;
+    heap_arr[i] = k;
 
-	int i = current_length;
-	heap_arr[i] = k;
-
-	while (i != 0 && heap_arr[parent(i)] < heap_arr[i])   // Fix the maxheap property
-	{
-		swap(&heap_arr[i], &heap_arr[parent(i)]);
-		i = parent(i);
-	}
-	current_length++;
+    while (i != 0 && heap_arr[parent(i)] > heap_arr[i])   // Fix the MaxHeap property
+    {
+        swap(&heap_arr[i], &heap_arr[parent(i)]);
+        i = parent(i);
+    }
+    current_length++;
 }
 
 
 int MaxHeap::getMax()
 {
-	return heap_arr[0];
+    return heap_arr[0];
 }
 
 
-// ORDERING
-void MaxHeap::Heapify()
+// shifting down
+void MaxHeap::sift_down(int index)
 {
-	int worst_case = floor(log2(heap_size));  // height of the tree. Worst case scenario
-	for (int i = 0; i < worst_case; i++)
-	{
-		int currentSize = 0;
-		int starting_point = heap_arr[current_length / 2];
-
-		while (starting_point >= 0)
-		{
-			int maximum = starting_point;
-			int left = leftChild(starting_point);
-			if (rightChild(starting_point) < heap_size)
-			{
-				int right = rightChild(starting_point);
-				if (heap_arr[starting_point] < heap_arr[right])  // sometimes there is no right child so we will avoid IndexOutOfRange
-				{
-					maximum = right;
-				}
-			}
-
-			if (heap_arr[starting_point] < heap_arr[left] && heap_arr[left] > heap_arr[maximum]) // in case right child is smaller than the left child
-			{
-				maximum = left;
-			}
-
-			if (maximum != starting_point)  // Change only if the parent is greater than at least one child (if the 2 childs are smaller than maximum will store the maximum of the two)
-			{
-				swap(&heap_arr[maximum], &heap_arr[starting_point]);
-				currentSize++;
-			}
-			starting_point--;
-		}
-		if (currentSize == 0) // Means that the Heap has been Heapified
-		{
-			break;
-		}
-
-	}
-
-}
-
-bool MaxHeap::isLeaf(int i)
-{
-  if(i>=current_length)
-      return true;
-  return false;
-}
-
-void MaxHeap::siftdown(int i)
-{
-    int left = leftChild(i);
-    int right = rightChild(i);
-
-    if(isLeaf(left))
-       return;
-
-    int maxIndex = i;
-    if(heap_arr[left] > heap_arr[i])
+    while (true)
     {
-      maxIndex = left;
-    }
+        int left_index = leftChild(index), right_index = rightChild(index);
 
-    if(!isLeaf(right) && (heap_arr[right] > heap_arr[maxIndex]))
-    {
-      maxIndex = right;
-    }
+        // έχει και αριστερό και δεξί παιδί
+        if (left_index != -1 && right_index != -1)
+        {
+            int min_index;
+            if (heap_arr[left_index] > heap_arr[right_index] || heap_arr[left_index] == heap_arr[right_index])
+            {
+                min_index = left_index;
+            }
+            else {
+                min_index = right_index;
+            }
 
-    if(maxIndex != i)
-    {
-      int temp = heap_arr[i];
-      heap_arr[i] = heap_arr[maxIndex];
-      heap_arr[maxIndex] = temp;
-      siftdown(maxIndex);
+            if (heap_arr[min_index] > heap_arr[index])
+            {
+                swap(&heap_arr[index], &heap_arr[min_index]);
+                index = min_index;
+            }
+            else {
+                break;
+            }
+        }
+
+            // only left child
+        else if (left_index != -1)
+        {
+            if (heap_arr[left_index] > heap_arr[index])
+            {
+                swap(&heap_arr[index], &heap_arr[left_index]);
+                index = left_index;
+            }
+            else {
+                break;
+            }
+        }
+
+            // only right child
+        else if (right_index != -1)
+        {
+            if (heap_arr[right_index] > heap_arr[index])
+            {
+                swap(&heap_arr[index], &heap_arr[right_index]);
+                index = right_index;
+            }
+            else {
+                break;
+            }
+        }
+
+            // no child
+        else {
+            break;
+        }
     }
 }
+
 
 int MaxHeap::get_size()
 {
-	return current_length;
+    return current_length;
 }
 
 void MaxHeap::extract(){
     if (current_length == 0) throw runtime_error("The heap is empty.");
     heap_arr[0] = heap_arr[current_length - 1];
     current_length--;
-    cout << current_length << endl;
-    siftdown(0);
+    sift_down(0);
 }

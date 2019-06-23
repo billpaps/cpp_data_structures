@@ -43,6 +43,7 @@ AvlTree *AvlTree::right_rotate(AvlTree *nodey)
 	x->right_child = nodey;
 	nodey->left_child = right_leaf;
 
+
 	nodey->height_num = max(height(nodey->left_child), height(nodey->right_child)) + 1;
 
 	x->height_num = max(height(x->left_child), height(x->right_child)) + 1;
