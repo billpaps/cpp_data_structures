@@ -3,6 +3,7 @@
 #include <string>
 #include <numeric>
 #include <math.h>
+#include <stdexcept>
 
 using namespace std;
 
@@ -19,11 +20,27 @@ MinHeap::~MinHeap()
 }
 
 
-int MinHeap::parent(int n)  { return (n-1)/2; }  // index of parent
+int MinHeap::parent(int n)
+{
+    int cell = (index - 1) / 2;
+    if (cell < 0 || cell >= index) return -1;
+    return cell;
+}  // index of parent
 
-int MinHeap::leftChild(int n) { return n*2 + 1; }  // index of leftChild
+int MinHeap::leftChild(int n)
+{
+    int cell = index * 2 + 1;
+    if (cell >= size || cell <= index) return -1;
+    return cell;
+}  // index of leftChild
 
-int MinHeap::rightChild(int n) { return n*2 + 2; }  // index of rightChild
+int MinHeap::rightChild(int n)
+{
+    int cell = index * 2 + 2;
+    if (cell >= size || cell <= index) return -1;
+    return cell;
+
+}  // index of rightChild
 
 void MinHeap::swap(int *x, int *y){
     int temporary = *x;
@@ -65,48 +82,68 @@ int MinHeap::getMin()
 }
 
 
-// ORDERING
-void MinHeap::Heapify()
+// shifting down
+void Minheap::sift_down(int index)
 {
-	int worst_case = floor(log2(heap_size));  // height of the tree. Worst case scenario
-    for(int i = 0; i < worst_case; i++)
+    while (true)
     {
-        int currentSize = 0;
-        int starting_point = heap_arr[current_length/2];
+        int left_index = leftChild(index), right_index = rightChild(index);
 
-        while(starting_point >= 0)
+        // έχει και αριστερό και δεξί παιδί
+        if (left_index != -1 && right_index != -1)
         {
-            int minimum = starting_point;
-            int left = leftChild(starting_point);
-            if (rightChild(starting_point) < heap_size)
+            int min_index;
+            if (heap_arr[left_index] < heap_arr[right_index] || heap_arr[left_index] == heap_arr[right_index])
             {
-                int right = rightChild(starting_point);
-                if (heap_arr[starting_point] > heap_arr[right])  // sometimes there is no right child so we will avoid IndexOutOfRange
-                {
-                    minimum = right;
-                }
+                min_index = left_index;
+            }
+            else {
+                min_index = right_index;
             }
 
-            if (heap_arr[starting_point] > heap_arr[left] && heap_arr[left] < heap_arr[minimum]) // in case right child is smaller than the left child
+            if (heap_arr[min_index] < heap_arr[index])
             {
-                minimum = left;
+                swap(&heap_arr[index], &heap_arr[min_index]);
+                index = min_index;
             }
-
-            if (minimum != starting_point)  // Change only if the parent is greater than at least one child (if the 2 childs are smaller than minimum will store the minimum of the two)
-            {
-				swap(&heap_arr[minimum], &heap_arr[starting_point]);
-                currentSize++;
+            else {
+                break;
             }
-            starting_point--;
         }
-        if (currentSize == 0) // Means that the Heap has been Heapified
+
+            // only left child
+        else if (left_index != -1)
         {
+            if (heap_arr[left_index] < heap_arr[index])
+            {
+                swap(&heap_arr[index], &heap_arr[left_index]);
+                index = left_index;
+            }
+            else {
+                break;
+            }
+        }
+
+            // only right child
+        else if (right_index != -1)
+        {
+            if (heap_arr[right_index] < heap_arr[index])
+            {
+                swap(&heap_arr[index], &heap_arr[right_index]);
+                index = right_index;
+            }
+            else {
+                break;
+            }
+        }
+
+            // no child
+        else {
             break;
         }
-
     }
-
 }
+
 
 int MinHeap::get_size()
 {
@@ -114,7 +151,11 @@ int MinHeap::get_size()
 }
 
 void extract(){
-    //swap(&heap_arr[0],&heap_arr[heap_arr->current_length]);
-    //heap_arr->current_length--;
-    //heap_arr->Heapify();
+    if (current_length == 0) throw runtime_error("The heap is empty.");
+
+    int min = heap_arr[0];
+    heap_arr[0] = heap_arr[current_length - 1];
+    current_length--;
+    sift_down(0);
+    return min;
 }

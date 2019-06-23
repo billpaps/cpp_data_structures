@@ -213,14 +213,14 @@ int main()
 			else if (command == "DELETEMIN")
 			{
 			    time_req = clock();
-			    //Call function in this line
+                Min_h.extract();
                 time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
                 writeToFile << "DELETED MIN FROM MINHEAP - TIME USED: "<< time_used <<endl;
 			}
 			else if (command == "DELETEMAX")
 			{
 			    time_req = clock();
-			    //Call function in this line
+			    Min_h.extract();
                 time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
                 writeToFile << "DELETED MAX FROM MAXHEAP - TIME USED: " << time_used << endl;
 			}

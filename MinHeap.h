@@ -15,7 +15,7 @@ public:
 
     void insertKey(int k);
 
-    void Heapify();
+    void sift_down(int index);
 
     int parent(int n);
 
