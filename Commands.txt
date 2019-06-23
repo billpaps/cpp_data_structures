@@ -1,3 +1,4 @@
-BUILD HASHTABLE C:\Users\Alex\AppData\Roaming\SPB_Data\cpp_data_structures\MinHeap.txt
-SEARCH HASHTABLE 84
-SEARCH HASHTABLE 829
+BUILD GRAPH C:\Users\Alex\AppData\Roaming\SPB_Data\cpp_data_structures\graph.txt
+GETSIZE GRAPH
+FINDCONNECTEDCOMPONENTS GRAPH
+COMPUTESPANNINGTREE GRAPH

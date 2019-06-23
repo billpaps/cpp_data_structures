@@ -29,6 +29,6 @@ public:
 
 	int get_size();
 
-    void extract(int *del);
+    void extract();
 
 };

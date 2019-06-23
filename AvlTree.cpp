@@ -22,16 +22,15 @@ int AvlTree::height(AvlTree *node) //height of a node
 	return node->height_num;
 }
 
-AvlTree* AvlTree::new_node(int key) //create new node
-{
-	AvlTree *node = new AvlTree();
+AvlTree* AvlTree::new_node(int key) {
+    AvlTree* node = new AvlTree();
 	node->key = key;
 	node->right_child = NULL;
 	node->left_child = NULL;
 	node->height_num = 1;
-	size = 1;
+    node->currentSize = 1;
 
-	return (node);
+    return (node);
 }
 
 AvlTree *AvlTree::right_rotate(AvlTree *nodey)
@@ -42,11 +41,11 @@ AvlTree *AvlTree::right_rotate(AvlTree *nodey)
 	// Rotate
 	x->right_child = nodey;
 	nodey->left_child = right_leaf;
-  
+
 	nodey->height_num = max(height(nodey->left_child), height(nodey->right_child)) + 1;
 
 	x->height_num = max(height(x->left_child), height(x->right_child)) + 1;
-  
+
 	return x;
 
 }
@@ -60,11 +59,11 @@ AvlTree* AvlTree::left_rotate(AvlTree* nodex)
 	y->left_child = nodex;
 	nodex->right_child = T2;
 
-	// New heights  
+	// New heights
 	nodex->height_num = max(height(nodex->left_child), height(nodex->right_child)) + 1;
 	y->height_num = max(height(y->left_child), height(y->right_child)) + 1;
 
-	// New root  
+	// New root
 	return y;
 
 }
@@ -101,7 +100,8 @@ AvlTree* AvlTree::insert_node(AvlTree* node, int key)
 
 	node->height_num = max(height(node->left_child), height(node->right_child)) + 1; //update the balance of the node
 
-	int node_balance = balance(node); 
+	int node_balance = balance(node);
+    cout << endl << "node balance :" << node_balance<< endl;
 
 	// There are 4 cases
 	//1st case Left-Left Rotation
@@ -127,7 +127,7 @@ AvlTree* AvlTree::insert_node(AvlTree* node, int key)
 		return right_rotate(node);
 	}
 
-	size++;
+	currentSize++;
 
 	return node;//this node pointer has not been changed
 
@@ -145,5 +145,5 @@ void AvlTree::print_tree(AvlTree* root)
 
 int AvlTree::get_size()
 {
-	return size;
+	return node->currentSize;
 }

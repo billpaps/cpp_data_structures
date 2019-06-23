@@ -13,7 +13,7 @@ Graph::Graph()
 
 Graph::~Graph()
 {
-
+    graph.clear();
 }
 
 int Graph::getEdgeCount() { return edgeCount; } // επιστρεφει τις ακμες
@@ -224,7 +224,7 @@ void Graph::deleteEdge(int value1,int value2){
 /*
     Στην παρακατω συναρτηση καταρχας θετω ολους τους κομβους ως notVisited. Επειτα με το DFS διαπαιρνω ολους τους κομβους
     Οταν πλεον εχω διαπερασει ολους τους κομβους, ελεγχω παλι ολο το γραφημα αν εχω επισκεφτει ολους τους κομβους. Αν οχι τοτε
-    τοποθετω στην ουρα τον πρωτο κομβο που βρισκω οτι δεν εχω επισκεφθει και εκτελω παλι DFS. Ολο αυτο συνεχσιζει μεχρις
+    τοποθετω στην ουρα τον πρωτο κομβο που βρισκω οτι δεν εχω επισκεφθει και εκτελω παλι BFS. Ολο αυτο συνεχσιζει μεχρις
     οσοτου εχω επισκεφθει ολους τους κομβους. Τελος καθε φορα που βρισκω οτι δεν εχω επισκεφθει εναν κομβο εφοσον τελειωσει η
     μια επαναληψη του DFS αυξανα το πληθος των ανεξάρτητων κομβων κατα 1
 */
@@ -264,6 +264,63 @@ int Graph::findConnectedComponents()
     return connectedComponents;
 }
 
-void Graph::spanningTree(){
 
+/*
+    Ελεγχω ποσο ανεξαρτητα συνολα υπαρχουν, αν ειναι 0 η 1 επιστρεφω 0 η node-1 αντιστοιχα
+    Σε αλλη περιπτωση απλως διαπερνω το γραφο με μια παραλλαγη του BFS και υπολογιζω το μονοπατι
+    σε καθε υποσυνολο του γραφου και τα συγκρινω μεταξύ τους
+*/
+int Graph::spanningTree(){
+    int allComponents = findConnectedComponents();
+    int minPath=0;
+    if(allComponents==0)
+        return 0;
+    if(allComponents==1)
+        return nodeCount-1;
+
+    queue<int> agenda;
+    vector<int> children;
+    bool *explored = new bool[nodeCount];
+    for (int i = 0 ; i<=nodeCount ; ++i)
+        explored[i] = false;
+    agenda.push(graph[0].source);
+    while(!agenda.empty())
+    {
+        int currentVertex = agenda.front();
+        agenda.pop();
+        minPath++;
+        explored[currentVertex]=true;
+        children = graph[currentVertex].destination;
+        for(unsigned int i=0; i<children.size() ; i++)
+            if(!explored[children[i]]){
+                agenda.push(children[i]);
+                explored[children[i]]=true;
+            }
+    }
+    while(allComponents!=1){
+        for(int i=0;i<nodeCount;i++)
+            if(!explored[i]){
+                agenda.push(graph[i].source);
+                break;
+            }
+        int tempMinPath=-1;
+        while(!agenda.empty())
+        {
+            int currentVertex = agenda.front();
+            agenda.pop();
+            tempMinPath++;
+            explored[currentVertex]=true;
+            children = graph[currentVertex].destination;
+            for(unsigned int i=0; i<children.size() ; i++)
+                if(!explored[children[i]]){
+                    agenda.push(children[i]);
+                    explored[children[i]]=true;
+                }
+        }
+        if(tempMinPath<minPath)
+            minPath = tempMinPath;
+        allComponents--;
+
+    }
+    return minPath;
 }

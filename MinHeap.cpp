@@ -71,7 +71,7 @@ void MinHeap::Heapify()
 	int worst_case = floor(log2(heap_size));  // height of the tree. Worst case scenario
     for(int i = 0; i < worst_case; i++)
     {
-        int count = 0;
+        int currentSize = 0;
         int starting_point = heap_arr[current_length/2];
 
         while(starting_point >= 0)
@@ -95,11 +95,11 @@ void MinHeap::Heapify()
             if (minimum != starting_point)  // Change only if the parent is greater than at least one child (if the 2 childs are smaller than minimum will store the minimum of the two)
             {
 				swap(&heap_arr[minimum], &heap_arr[starting_point]);
-                count++;
+                currentSize++;
             }
             starting_point--;
         }
-        if (count == 0) // Means that the Heap has been Heapified
+        if (currentSize == 0) // Means that the Heap has been Heapified
         {
             break;
         }
@@ -113,6 +113,8 @@ int MinHeap::get_size()
 	return current_length;
 }
 
-void extract(int *del){
-
+void extract(){
+    //swap(&heap_arr[0],&heap_arr[heap_arr->current_length]);
+    //heap_arr->current_length--;
+    //heap_arr->Heapify();
 }

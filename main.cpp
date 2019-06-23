@@ -15,7 +15,7 @@ using namespace std;
 
 MinHeap Build_min(string filename);
 MaxHeap Build_max(string filename);
-AvlTree Build_avltree(string filename);
+AvlTree* Build_avltree(string filename);
 Graph build_Graph(string filename);
 HashTable build_Hash(string filename);
 
@@ -23,7 +23,7 @@ int main()
 {
 	MinHeap Min_h;
 	MaxHeap Max_h;
-	AvlTree Avl_tree;
+	AvlTree *Avl_tree;
 	Graph Graph_Structure;
     HashTable Hash_Structure;
 
@@ -41,12 +41,10 @@ int main()
 
 	if (readFromFile.is_open()) 	// file is open
 	{
-
 		while (getline(readFromFile, line))	// οσο διαβαζει σειρες να συνεχιζει
 		{
 			istringstream iss(line);
 			iss >> command >> type;		// η εντολη πχ BUILD, GETSIZE, και μετά ο τύπος πχ MINHEAP MAXHEAP κλπ.
-
 			if (command == "BUILD")
 			{
 				iss >> filename;
@@ -54,35 +52,35 @@ int main()
 				{
 				    time_req = clock();
 					Min_h = Build_min(filename);
-					time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+					time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
 					writeToFile << "MINHEAP BUILT SUCCESSFULLY - TIME USED: " << time_used << endl;
 				}
 				else if (type == "MAXHEAP")
 				{
 				    time_req = clock();
 					Max_h = Build_max(filename);
-					time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+					time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
 					writeToFile << "MAXHEAP BUILT SUCCESSFULLY - TIME USED: " << time_used << endl;
 				}
 				else if (type == "AVLTREE")
 				{
 				    time_req = clock();
 					Avl_tree = Build_avltree(filename);
-					time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+					time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
 					writeToFile << "AVLTREE BUILT SUCCESSFULLY - TIME USED: " << time_used << endl;
 				}
 				else if (type == "GRAPH")
 				{
 				    time_req = clock();
                     Graph_Structure = build_Graph(filename);
-                    time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+                    time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
                     writeToFile << "GRAPH BUILT SUCCESSFULLY - TIME USED: " << time_used << endl;
 				}
 				else // HASHTABLE
 				{
 				    time_req = clock();
                     Hash_Structure = build_Hash(filename);
-                    time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+                    time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
                     writeToFile << "HASHTABLE BUILT SUCCESSFULLY - TIME USED: " << time_used << endl;
 				}
 			}
@@ -92,21 +90,21 @@ int main()
 				{
 				    time_req = clock();
 					value1 =  Min_h.get_size();
-					time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+					time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
 					writeToFile << "MINHEAP SIZE: " << value1 << " - TIME USED: " << time_used << endl;
 				}
 				else if (type == "MAXHEAP")
 				{
 				    time_req = clock();
 					value1 = Max_h.get_size();
-					time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+					time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
 					writeToFile << "MAXHEAP SIZE: " << value1 << " - TIME USED: " << time_used << endl;
 				}
 				else if (type == "AVLTREE")
 				{
 				    time_req = clock();
-					value1 = Avl_tree.get_size();
-					time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+					value1 = Avl_tree->get_size();
+					time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
 					writeToFile << "AVLTREE SIZE: " << value1 << " - TIME USED: " << time_used << endl;
 				}
 				else if (type == "GRAPH")
@@ -114,44 +112,46 @@ int main()
 				    time_req = clock();
                     value1 = Graph_Structure.getVertexCount();
                     value2 = Graph_Structure.getEdgeCount();
-                    time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
-                    writeToFile << "GRAPH VERTEX COUNT: " << value1 << " | GRAPH EDGE COUNT : "<< value2 << " - TIME USED" << time_used << endl;
+                    time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
+                    writeToFile << "GRAPH VERTEX COUNT: " << value1 << " | GRAPH EDGE COUNT : "<< value2 << " - TIME USED: " << time_used << endl;
 				}
 				else // HASHTABLE
 				{
 				    time_req = clock();
                     value1 = Hash_Structure.getHashEntriesCount();
-                    time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+                    time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
                     writeToFile << "MINHEAP SIZE: " << value1 << " - TIME USED: " << time_used << endl;
 				}
-
 			}
 			else if (command == "FINDMIN")
 			{
 			    time_req = clock();
 				value1 = Min_h.getMin();
-				time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
-				writeToFile << "MINHEAP FINDMIN COMMAND: " << value1 << " - TIME USED: " << time_used << endl;
+				time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
+				writeToFile << "MINHEAP FINDMIN COMMAND VALUE: " << value1 << " - TIME USED: " << time_used << endl;
 			}
-
 			else if (command == "FINDMAX")
 			{
 			    time_req = clock();
 				value1 = Max_h.getMax();
-				time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
-				writeToFile << "MAXHEAP FINDMAX COMMAND: " << value1 << " - TIME USED: " << time_used << endl;
+				time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
+				writeToFile << "MAXHEAP FINDMAX COMMAND VALUE: " << value1 << " - TIME USED: " << time_used << endl;
 			}
 
 			else if (command == "SEARCH")
 			{
                 if(type=="AVLTREE"){
-
-                }else{//HASHTABLE
+                    time_req = clock();
+                    iss >> value1;
+                    //Call function with value1 as parameter
+                    time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
+                    writeToFile << "AVLTREE SEARCH COMMAND VALUE: " << value1 << " - TIME USED: " << time_used << endl;
+                }else{
                     time_req = clock();
                     iss >> value1;
                     type = Hash_Structure.searchHashTable(value1);
-                    time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
-                    writeToFile << "HASHTABLE SEARCH COMMAND: " << type << " - TIME USED: " << time_used << endl;
+                    time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
+                    writeToFile << "HASHTABLE SEARCH COMMAND: VALUE: " << value1 << " - TIME USED: " << time_used << endl;
                 }
 			}
 			else if (command == "COMPUTESHORTESTPATH")
@@ -159,19 +159,22 @@ int main()
 			    time_req = clock();
                 iss >> value1 >> value2 ;
                 int cost = Graph_Structure.shortestPathBFS(value1, value2);
-                time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+                time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
                 writeToFile << "GRAPH SHORTEST PATH BETWEEN "<< value1 << " and " << value2 << ": " << cost << " - TIME USED: " << time_used << endl;
             }
 			else if (command == "FINDCONNECTEDCOMPONENTS")
 			{
 			    time_req = clock();
                 int connectedComponents = Graph_Structure.findConnectedComponents();
-                time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
+                time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
                 writeToFile << "GRAPH CONNECTED COMPONENTS : " << connectedComponents << " - TIME USED: " << time_used << endl;
 			}
 			else if ( command == "COMPUTESPANNINGTREE")
             {
-
+                time_req = clock();
+                int spanningTree = Graph_Structure.spanningTree();
+                time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
+                writeToFile << "GRAPH COMPUTESPANNINGTREE COMMAND: " << spanningTree << " - TIME USED: " << time_used << endl;
             }
 			else if (command == "INSERT")
 			{
@@ -179,43 +182,65 @@ int main()
                     time_req = clock();
                     iss >> value1 >> value2 ;
                     Graph_Structure.insertEdge(value1, value2);
-                    time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
-                    writeToFile << "GRAPH INSERT COMMAND - TIME USED: " << time_used << endl;
+                    time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
+                    writeToFile << "GRAPH INSERT COMMAND (" <<value1 << " , " << value2 << ") - TIME USED: " << time_used << endl;
 			    }else if(type=="MINHEAP"){
-
+			        time_req = clock();
+			        iss >> value1;
+                    //Call function in this line with value1 as parameter
+                    time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
+                    writeToFile << "MINHEAP INSERT COMMAND VALUE: " << value1 << " - TIME USED: " << time_used << endl;
 			    }else if(type=="MAXHEAP"){
-
+                    time_req = clock();
+                    iss >> value1;
+                    //Call function in this line with value1 as parameter
+                    time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
+                    writeToFile << "MAXHEAP INSERT COMMAND VALUE: " << value1 << " - TIME USED: " << time_used << endl;
 			    }else if(type=="AVLTREE"){
-
-			    }else{//HASHTABLE
+			        time_req = clock();
+			        iss >> value1;
+                    //Call function in this line with value1 as parameter
+                    time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
+                    writeToFile << "AVLTREE INSERT COMMAND VALUE: " << value1 << " - TIME USED: " << time_used << endl;
+			    }else{
 			        time_req = clock();
 			        iss >> value1;
                     Hash_Structure.addEntry(value1);
-                    time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
-                    writeToFile << "GRAPH INSERT COMMAND - TIME USED: " << time_used << endl;
+                    time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
+                    writeToFile << "HASHTABLE INSERT COMMAND VALUE: " << value1 << " - TIME USED: " << time_used << endl;
 			    }
             }
 			else if (command == "DELETEMIN")
 			{
-
+			    time_req = clock();
+			    //Call function in this line
+                time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
+                writeToFile << "DELETED MIN FROM MINHEAP - TIME USED: "<< time_used <<endl;
 			}
 			else if (command == "DELETEMAX")
 			{
-
+			    time_req = clock();
+			    //Call function in this line
+                time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
+                writeToFile << "DELETED MAX FROM MAXHEAP - TIME USED: " << time_used << endl;
 			}
 			else if (command == "DELETE") // AVLTREE OR GRAPH
 			{
 				if (type == "AVLTREE")
 				{
-
+				    time_req = clock();
+				    iss >> value1;
+				    //Call function in this line with value1 as parameter
+                    time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
+                    writeToFile << "AVLTREE DELETE COMMAND VALUE: " << value1 << " - TIME USED: " << time_used << endl;
 				}
 				else if (type == "GRAPH")
 				{
 				    time_req = clock();
 				    iss >> value1 >> value2 ;
                     Graph_Structure.deleteEdge(value1,value2);
-                    time_used = (double)((clock()-time_req)/CLOCKS_PER_SEC);
-                    writeToFile << "GRAPH DELETE COMMAND - TIME USED: " << time_used << endl;
+                    time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
+                    writeToFile << "GRAPH DELETE COMMAND (" <<value1 << " , " << value2 << ") - TIME USED: " << time_used << endl;
 				}
 			}
 		}
@@ -276,9 +301,9 @@ MaxHeap Build_max(string filename)
 }
 
 //---------AVLTREE------------//
-AvlTree Build_avltree(string filename)
+AvlTree* Build_avltree(string filename)
 {
-	AvlTree tree;
+    AvlTree *tree = NULL;
 	ifstream readValues;
 	string string_values;
 	int value;
@@ -288,7 +313,7 @@ AvlTree Build_avltree(string filename)
 		while (getline(readValues, string_values))
 		{
 			value = stoi(string_values);
-			tree.new_node(value);
+			tree = tree->insert_node(tree,value);
 		}
 	}
 	return tree;
