@@ -13,7 +13,7 @@
 
 using namespace std;
 
-MinHeap* Build_min(string filename);
+MinHeap Build_min(string filename);
 MaxHeap Build_max(string filename);
 AvlTree* Build_avltree(string filename);
 Graph build_Graph(string filename);
@@ -21,7 +21,7 @@ HashTable build_Hash(string filename);
 
 int main()
 {
-	MinHeap *Min_h;
+	MinHeap Min_h;
 	MaxHeap Max_h;
 	AvlTree *Avl_tree;
 	Graph Graph_Structure;
@@ -89,7 +89,7 @@ int main()
 				if (type == "MINHEAP")
 				{
 				    time_req = clock();
-					value1 =  Min_h->get_size();
+					value1 =  Min_h.get_size();
 					time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
 					writeToFile << "MINHEAP SIZE: " << value1 << " - TIME USED: " << time_used << endl;
 				}
@@ -126,7 +126,7 @@ int main()
 			else if (command == "FINDMIN")
 			{
 			    time_req = clock();
-				value1 = Min_h->getMin();
+				value1 = Min_h.getMin();
 				time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
 				writeToFile << "MINHEAP FINDMIN COMMAND VALUE: " << value1 << " - TIME USED: " << time_used << endl;
 			}
@@ -187,13 +187,13 @@ int main()
 			    }else if(type=="MINHEAP"){
 			        time_req = clock();
 			        iss >> value1;
-                    //Call function in this line with value1 as parameter
+                    Min_h.insertKey(value1);
                     time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
                     writeToFile << "MINHEAP INSERT COMMAND VALUE: " << value1 << " - TIME USED: " << time_used << endl;
 			    }else if(type=="MAXHEAP"){
                     time_req = clock();
                     iss >> value1;
-                    //Call function in this line with value1 as parameter
+                    Max_h.insertKey(value1);
                     time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
                     writeToFile << "MAXHEAP INSERT COMMAND VALUE: " << value1 << " - TIME USED: " << time_used << endl;
 			    }else if(type=="AVLTREE"){
@@ -213,14 +213,14 @@ int main()
 			else if (command == "DELETEMIN")
 			{
 			    time_req = clock();
-                Min_h->extract(Min_h);
+                Min_h.extract();
                 time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
                 writeToFile << "DELETED MIN FROM MINHEAP - TIME USED: "<< time_used <<endl;
 			}
 			else if (command == "DELETEMAX")
 			{
 			    time_req = clock();
-			   // Min_h.extract(); // Ρε εδω ειναι το Max_h μην τα μπερδευεις
+                Max_h.extract();
                 time_used = ((double)clock())-((double)time_req)/((double)CLOCKS_PER_SEC);
                 writeToFile << "DELETED MAX FROM MAXHEAP - TIME USED: " << time_used << endl;
 			}
@@ -258,20 +258,20 @@ int main()
  Συναρτηση που ανοιγει το αρχεια minheap.txt μεσω της μεταβλητης string filename
  και διαβαζει τις τιμες που προκειται να εχει ο σωρος ελαχιστων
 */
-MinHeap* Build_min(string filename)
+MinHeap Build_min(string filename)
 {
 	ifstream readValues;
 	string string_values;
 	int value;
 	readValues.open(filename, ios_base::in);
-	MinHeap* min_h = new MinHeap();
+	MinHeap min_h;
 	if (readValues.is_open())
 	{
 
 		while (getline(readValues, string_values))
 		{
 			value = stoi(string_values);
-			min_h->insertKey(value);
+			min_h.insertKey(value);
 		}
 	}
 	return min_h;

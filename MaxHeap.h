@@ -5,10 +5,10 @@ using namespace std;
 class MaxHeap
 {
 
-	int* heap_arr;
-	int heap_size, current_length;
-
 public:
+
+    int* heap_arr;
+	int heap_size, current_length;
 
 	MaxHeap(); //Constructor
 	~MaxHeap();
@@ -29,6 +29,10 @@ public:
 
 	int get_size();
 
-	void extract(int* del);
+	void extract();
+
+	void siftdown(int i);
+
+	bool isLeaf(int i);
 
 };

@@ -5,12 +5,13 @@ using namespace std;
 class MinHeap
 {
 protected:
-    int *heap_arr;
-    int heap_size;
+
 
 public:
 
     int current_length;
+    int *heap_arr;
+    int heap_size;
     MinHeap(); //Constructor
 	~MinHeap();
 
@@ -30,6 +31,6 @@ public:
 
 	int get_size();
 
-    void extract(MinHeap *heap_arr);
+    void extract();
 
 };

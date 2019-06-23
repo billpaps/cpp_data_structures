@@ -150,9 +150,9 @@ int MinHeap::get_size()
 	return current_length;
 }
 
-void MinHeap::extract(MinHeap *heap_arr){
-    if (heap_arr->current_length == 0) throw runtime_error("The heap is empty.");
-    heap_arr[0] = heap_arr[heap_arr->current_length - 1];
-    heap_arr->current_length--;
-    heap_arr->sift_down(0);
+void MinHeap::extract(){
+    if (current_length == 0) throw runtime_error("The heap is empty.");
+    heap_arr[0] = heap_arr[current_length - 1];
+    current_length--;
+    sift_down(0);
 }

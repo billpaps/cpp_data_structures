@@ -33,6 +33,7 @@ AvlTree* AvlTree::new_node(int key) {
     return (node);
 }
 
+//RIGHT ROTATE
 AvlTree *AvlTree::right_rotate(AvlTree *nodey)
 {
 	AvlTree *x = nodey->left_child;
@@ -48,8 +49,7 @@ AvlTree *AvlTree::right_rotate(AvlTree *nodey)
 
 	return x;
 
-}
-
+}//LEFT ROTATE
 AvlTree* AvlTree::left_rotate(AvlTree* nodex)
 {
 	AvlTree* y = nodex->right_child;
@@ -68,6 +68,7 @@ AvlTree* AvlTree::left_rotate(AvlTree* nodex)
 
 }
 
+//GET BALANCE OF NODE
 int AvlTree::balance(AvlTree* node)
 {
 	if (node == NULL)
@@ -78,6 +79,7 @@ int AvlTree::balance(AvlTree* node)
 	return diff;
 }
 
+//INSERTING NEW NODE
 AvlTree* AvlTree::insert_node(AvlTree* node, int key)
 {
 	if (node == NULL) // first node
@@ -133,6 +135,7 @@ AvlTree* AvlTree::insert_node(AvlTree* node, int key)
 
 }
 
+//GO THROUGH THE TREE AND PRINT IT
 void AvlTree::print_tree(AvlTree* root)
 {
 	if (root != NULL)
@@ -143,6 +146,7 @@ void AvlTree::print_tree(AvlTree* root)
 	}
 }
 
+//RETURN SIZE
 int AvlTree::get_size()
 {
 	return node->currentSize;

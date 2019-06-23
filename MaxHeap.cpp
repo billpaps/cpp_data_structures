@@ -109,12 +109,50 @@ void MaxHeap::Heapify()
 
 }
 
+bool MaxHeap::isLeaf(int i)
+{
+  if(i>=current_length)
+      return true;
+  return false;
+}
+
+void MaxHeap::siftdown(int i)
+{
+    int left = leftChild(i);
+    int right = rightChild(i);
+
+    if(isLeaf(left))
+       return;
+
+    int maxIndex = i;
+    if(heap_arr[left] > heap_arr[i])
+    {
+      maxIndex = left;
+    }
+
+    if(!isLeaf(right) && (heap_arr[right] > heap_arr[maxIndex]))
+    {
+      maxIndex = right;
+    }
+
+    if(maxIndex != i)
+    {
+      int temp = heap_arr[i];
+      heap_arr[i] = heap_arr[maxIndex];
+      heap_arr[maxIndex] = temp;
+      siftdown(maxIndex);
+    }
+}
+
 int MaxHeap::get_size()
 {
 	return current_length;
 }
 
-void MaxHeap::extract(int* del)
-{
-
+void MaxHeap::extract(){
+    if (current_length == 0) throw runtime_error("The heap is empty.");
+    heap_arr[0] = heap_arr[current_length - 1];
+    current_length--;
+    cout << current_length << endl;
+    siftdown(0);
 }
