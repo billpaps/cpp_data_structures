@@ -30,14 +30,22 @@ int MinHeap::parent(int n)
 int MinHeap::leftChild(int n)
 {
     int cell = n * 2 + 1;
+<<<<<<< HEAD
     if (cell >= size || cell <= n) return -1;
+=======
+    if (cell >= current_length || cell <= n) return -1;
+>>>>>>> 9066daf2ec81aeb8efee4dff924040bee6c41530
     return cell;
 }  // index of leftChild
 
 int MinHeap::rightChild(int n)
 {
     int cell = n * 2 + 2;
+<<<<<<< HEAD
     if (cell >= size || cell <= n) return -1;
+=======
+    if (cell >= current_length || cell <= n) return -1;
+>>>>>>> 9066daf2ec81aeb8efee4dff924040bee6c41530
     return cell;
 
 }  // index of rightChild
@@ -83,7 +91,7 @@ int MinHeap::getMin()
 
 
 // shifting down
-void Minheap::sift_down(int index)
+void MinHeap::sift_down(int index)
 {
     while (true)
     {
