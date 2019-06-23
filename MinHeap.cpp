@@ -22,22 +22,22 @@ MinHeap::~MinHeap()
 
 int MinHeap::parent(int n)
 {
-    int cell = (index - 1) / 2;
-    if (cell < 0 || cell >= index) return -1;
+    int cell = (n - 1) / 2;
+    if (cell < 0 || cell >= n) return -1;
     return cell;
 }  // index of parent
 
 int MinHeap::leftChild(int n)
 {
-    int cell = index * 2 + 1;
-    if (cell >= size || cell <= index) return -1;
+    int cell = n * 2 + 1;
+    if (cell >= size || cell <= n) return -1;
     return cell;
 }  // index of leftChild
 
 int MinHeap::rightChild(int n)
 {
-    int cell = index * 2 + 2;
-    if (cell >= size || cell <= index) return -1;
+    int cell = n * 2 + 2;
+    if (cell >= size || cell <= n) return -1;
     return cell;
 
 }  // index of rightChild
